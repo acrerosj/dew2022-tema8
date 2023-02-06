@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Todo</title>
+  <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+  <script src="todo.js" defer></script>
+</head>
+<body>  
+  <h1>Lista de Tareas</h1>
+  <div id="app">
+    <p>
+      <label for="newTask">
+        Nueva Tarea:  
+      </label>
+      <input type="text" id="newTask" v-model="newTask" @keyup.enter="addTask()">
+      <button @click="addTask()">Crear</button>
+    </p>
+    <p>
+      Filtrado:
+      <input type="text" v-model.lazy="filter">
+    </p>
+    <p>Número de tareas: {{ taskSize }}</p>
+    <ul v-if="taskSize > 0">
+      <li @click="deleteTask(task.id)" v-for="task in searchTasks" >
+        {{ task.id }} - {{ task.name }}</li>
+    </ul>
+    <p v-else>No hay tareas</p>
+  </div>
+</body>
+</html>
