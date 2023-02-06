@@ -23,6 +23,32 @@
       <option value="DSW">Lado servidor</option>
       <option value="DPL">Despliegue</option>
     </select>
+    <p>
+      <input type="checkbox" v-model="mostrar">Mostrar h1
+    </p>
+    <h1 v-if="mostrar">Esto se muestra porque mostrar=true</h1>
+    <h1 v-else>Texto alternativo</h1>
+    <h2 v-show="mostrar">Solo esta línea</h2>
+    <ul>
+      <li v-for="(fruta, indice) in frutas">
+        {{ indice }} - {{ fruta }}
+      </li>
+    </ul>
+    <select name="" id="" v-model="fruta">
+      <option 
+        v-for="(fruta, indice) in frutas" 
+        :value="indice">{{ fruta }}</option>
+    </select>
+    <p>Indice de la fruta seleccionada es: {{fruta}}</p>
+    <p>{{ cliente.id }} - {{ cliente.name }} - {{ cliente.age }} </p>
+    <p>Nombre: <input type="text" v-model="cliente.name"></p>
+    <p>Edad: <input type="number" v-model="cliente.age"></p>
+    <p>
+      <button v-on:click="cliente.age++">Cumplir años</button>
+      <button @click="cliente.age--">Descumplir años</button>
+      <h3 @mouseover="cliente.age++">Cumplir años</h3>
+      <button @click="mayusculas()">Poner en mayusculas</button>
+    </p>
   </div>
 </body>
 </html>
