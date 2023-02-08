@@ -5,6 +5,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Todo</title>
+  <link rel="stylesheet" href="todo.css">
   <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
   <script src="todo.js" defer></script>
 </head>
@@ -15,7 +16,18 @@
       <label for="newTask">
         Nueva Tarea:  
       </label>
-      <input type="text" id="newTask" v-model="newTask" @keyup.enter="addTask()">
+      <input type="text" 
+        id="newTask" 
+        v-model="newTask" 
+        @keyup.enter="addTask()">
+      <select v-model="newPriority" :class="newPriority">
+        <option 
+          v-for="priority in priority_options" 
+          :value="priority"
+          :class="priority">
+            {{ priority }}
+        </option>
+      </select>
       <button @click="addTask()">Crear</button>
     </p>
     <p>
@@ -24,8 +36,14 @@
     </p>
     <p>Número de tareas: {{ taskSize }}</p>
     <ul v-if="taskSize > 0">
-      <li @click="deleteTask(task.id)" v-for="task in searchTasks" >
-        {{ task.id }} - {{ task.name }}</li>
+      <li 
+         v-for="task in searchTasks" 
+        :class="task.priority">
+        {{ task.id }} - {{ task.name }}
+        <button
+          @click="deleteTask(task.id)" 
+        >Eliminar</button>
+      </li>
     </ul>
     <p v-else>No hay tareas</p>
   </div>

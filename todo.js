@@ -3,23 +3,23 @@ const { createApp } = Vue;
 createApp({
   data() {
     return {
-      tasks: [
-        {id: 1, name: 'estudiar'},
-        {id: 2, name: 'aprender'},
-        {id: 3, name: 'rezar'},
-      ],
+      tasks: [],
       newTask: '',
+      newPriority: 'low',
       filter: '',
+      priority_options: ['low', 'medium', 'high'],
     }
   },
   methods: {
     addTask() {
-      let max = Math.max(...this.tasks.map(t => t.id));
+      let max = Math.max(0,...this.tasks.map(t => t.id));
       this.tasks.push({
         id: max+1,
-        name: this.newTask
+        name: this.newTask,
+        priority: this.newPriority
       });        
       this.newTask = '';
+      document.querySelector('#newTask').focus();
     },
     deleteTask(id) {
       // console.log('id', id);
@@ -35,6 +35,22 @@ createApp({
     },
     searchTasks() {
       return this.tasks.filter(t => t.name.includes(this.filter));
+    },
+    stringTasks() {
+      return JSON.stringify(this.tasks);
+    } 
+  },
+  watch: {
+    newTask(newNewTask, oldNewTask) {
+      this.newTask = newNewTask.toUpperCase();
+      console.log('watcher', ' viejo: ', oldNewTask, ' nuevo: ', newNewTask);
+    },
+    stringTasks(newString) {
+      console.log('cambiando tareas');
+      localStorage.tasks = newString;
     }
-  }
+  }, 
+  mounted() {
+    this.tasks = localStorage.tasks ? JSON.parse(localStorage.tasks) : [];
+  },
 }).mount('#app');
